@@ -20,4 +20,10 @@ public interface ProductDao extends JpaRepository<Product, Integer> {
     @Transactional
     @Query("update Product p set p.status=:status where p.id=:id")
     Integer updateProductStatus(@Param("status") String status,@Param("id") int id);
+
+    @Query("select new com.haidar.coffeemanagementsystem.wrapper.ProductWrapper(p.id, p.name, p.description, p.price, p.category.id,p.category.name , p.status) from Product p where p.category.id=:id and p.status='true'")
+    List<ProductWrapper> getProductByCategory(@Param("id") Integer id);
+
+    @Query("select new com.haidar.coffeemanagementsystem.wrapper.ProductWrapper(p.id, p.name, p.description, p.price, p.category.id,p.category.name , p.status) from Product p where p.id=:id")
+    ProductWrapper getProductById(Integer id);
 }
